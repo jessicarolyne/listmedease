@@ -4,6 +4,7 @@ import AddMedicineScreen from '../components/AddMedicineScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from '../components/HomeScreen';
 import SelectPatientScreen from '../components/SelectPatientScreen';
+import CadastroMedicamentoScreen from '../components/CadastroMedicamentoScreen';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ const AppNavigator = () => {
       <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
       <Stack.Screen name="Adicionar medicamento" component={AddMedicineScreen} options={{ title: 'Adicionar medicamento' }} />
       <Stack.Screen name="Selecionar paciente" component={SelectPatientScreen} options={{ title: 'Selecionar Paciente' }} />
+      <Stack.Screen name="Cadastrar novo medicamento" component={CadastroMedicamentoScreen} options={{ title: 'Cadastrar novo medicamento' }} />
     </Stack.Navigator>
   </NavigationContainer>
   );

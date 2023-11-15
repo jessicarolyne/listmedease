@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const SelectPatientScreen = ({ navigation }: { navigation: any }) => {
   const [patients, setPatients] = useState<any[]>([]);
@@ -10,7 +10,6 @@ const SelectPatientScreen = ({ navigation }: { navigation: any }) => {
     const fetchPatients = async () => {
       try {
         const userId = await AsyncStorage.getItem('userId');
-  
         if (userId) {
           const response = await axios.get(`http://192.168.0.112:3000/pacientes?userId=${userId}`);
           setPatients(response.data);
@@ -19,11 +18,11 @@ const SelectPatientScreen = ({ navigation }: { navigation: any }) => {
         console.error('Erro ao buscar pacientes:', error);
       }
     };
-  
+
     fetchPatients();
   }, []);
 
- const handlePatientSelect = async (patientId: number) => {
+  const handlePatientSelect = async (patientId: number) => {
     try {
       await AsyncStorage.setItem('selectedPatientId', patientId.toString());
     } catch (error) {
@@ -31,6 +30,7 @@ const SelectPatientScreen = ({ navigation }: { navigation: any }) => {
     }
 
     navigation.navigate('Home');
+  };
 
   return (
     <View>
@@ -48,7 +48,6 @@ const SelectPatientScreen = ({ navigation }: { navigation: any }) => {
       />
     </View>
   );
-};
 };
 
 export default SelectPatientScreen;

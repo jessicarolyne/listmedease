@@ -18,7 +18,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log('Login bem-sucedido:', data);
+        //console.log('Login bem-sucedido:', data);
        AsyncStorage.setItem('userId', data.user.id.toString());
         navigation.navigate('Selecionar paciente');
       } else {
@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
 
 
   return (
-    <View>
+    <View style={{ flex: 1, padding: 16 }}>
       <TextInput
         placeholder="Email"
         value={email}

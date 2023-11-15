@@ -1,7 +1,14 @@
 import React from 'react';
 import Navigation from './src/navigation/Navigator';
-import { StatusBar, View } from 'react-native';
+import { setNotificationHandler } from 'expo-notifications';
 
+setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
   const App: React.FC = () => {
     return <Navigation />
