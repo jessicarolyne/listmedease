@@ -1,8 +1,13 @@
 import express, { Request, Response, Router } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { createWriteStream } from 'fs';
+import { extname, resolve } from 'path';
+import { v4 as randomUUID } from 'uuid';
+import fastify, { FastifyRequest, FastifyReply } from 'fastify';
 const prisma = new PrismaClient();
 const app = express();
+const app2 = fastify();
 
 app.use(express.json());
 
@@ -115,9 +120,54 @@ app.put('/atualizarHoraProximaDose/:medicamentoId', async (req, res) => {
   }
 });
 
+/*app2.register(require('@fastify/static'), {
+  root: resolve(__dirname, '../uploads'),
+  prefix: '/uploads',
+})
+app2.post('/upload', async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const upload = await request.file({
+      limits: {
+        fileSize: 5_242_880, // 5mb
+      },
+    });
+
+    if (!upload) {
+      return reply.status(400).send();
+    }
+
+    const mimeTypeRegex = /^(image|video)\/[a-zA-Z]+/;
+    const isValidFileFormat = mimeTypeRegex.test(upload.mimetype);
+
+    if (!isValidFileFormat) {
+      return reply.status(400).send();
+    }
+
+    const fileId = randomUUID();
+    const extension = extname(upload.filename);
+
+    const fileName = fileId.concat(extension);
+
+    const writeStream = createWriteStream(
+      resolve(__dirname, 'uploads', fileName),
+    );
+
+    await pump(upload.file, writeStream);
+
+    const fullUrl = `${request.protocol}://${request.hostname}`;
+    const fileUrl = new URL(`/uploads/${fileName}`, fullUrl).toString();
+
+    return { fileUrl };
+  } catch (error) {
+    console.error('Erro ao processar o upload:', error);
+    return reply.status(500).send({ error: 'Erro ao processar o upload' });
+  }
+});
+*/
+
 app.post('/novoMedicamento', async (req, res) => {
   try {
-    const { name, hoursBetween, userId, pacienteId } = req.body;
+    const { name, hoursBetween, userId, pacienteId, photo } = req.body;
     const novaHoraProximaDose = getCurrentLocalDateTime();
     novaHoraProximaDose.setHours(novaHoraProximaDose.getHours() + hoursBetween);
     const novoMedicamento = await prisma.medicamento.create({
@@ -126,7 +176,8 @@ app.post('/novoMedicamento', async (req, res) => {
         hoursBetween,
         userId,
         pacienteId,
-        nextDue: novaHoraProximaDose
+        nextDue: novaHoraProximaDose,
+        photo
       },
     });
 

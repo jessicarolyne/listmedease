@@ -131,7 +131,15 @@ const horaFormatada = `${horario.getHours().toString().padStart(2, '0')}:${horar
             />
           </View>
         ))}
-       <TouchableOpacity
+    </View>
+    );
+  };
+
+  return (
+    <View style={{flex: 1, padding: 20}}>
+      <Text style={{fontSize: 24, fontWeight: 500}}>Lista de Medicamentos</Text>
+      {renderMedicamentosByHour()}
+      <TouchableOpacity
         style={{
           position: 'absolute',
           bottom: 20,
@@ -144,14 +152,6 @@ const horaFormatada = `${horario.getHours().toString().padStart(2, '0')}:${horar
       >
         <Text style={{ color: 'white', fontSize: 18 }}>Adicionar Medicamento</Text>
       </TouchableOpacity>
-    </View>
-    );
-  };
-
-  return (
-    <View>
-      <Text>Lista de Medicamentos</Text>
-      {renderMedicamentosByHour()}
     </View>
   );
 };

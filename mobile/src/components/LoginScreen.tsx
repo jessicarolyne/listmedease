@@ -18,8 +18,8 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        //console.log('Login bem-sucedido:', data);
-       AsyncStorage.setItem('userId', data.user.id.toString());
+        console.log('Login bem-sucedido:', data);
+        AsyncStorage.setItem('userId', data.user.id.toString());
         navigation.navigate('Selecionar paciente');
       } else {
         const errorData = await response.json();
@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
 
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <View style={{ flex: 1, padding: 16 }}/*className="flex-1 items-center justify-center bg-white"*/>
       <TextInput
         placeholder="Email"
         value={email}
