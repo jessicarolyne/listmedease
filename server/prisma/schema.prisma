@@ -30,6 +30,7 @@ model Medicamento {
   id           Int       @id @default(autoincrement())
   name         String
   hoursBetween Int
+  dosagem      String?
   photo        String?
   nextDue      DateTime
   user         User      @relation(fields: [userId], references: [id])

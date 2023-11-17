@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 const CadastroMedicamentoScreen = ({ navigation }: { navigation: any }) => {
   const [name, setName] = useState('');
   const [hoursBetween, setHoursBetween] = useState('');
+  const [dosagem, setDosagem] = useState('');
   const [photo, setPhoto] = useState<string | null>(null);
 
   const openImagePicker = async () => {
@@ -55,6 +56,7 @@ const CadastroMedicamentoScreen = ({ navigation }: { navigation: any }) => {
           hoursBetween: parseInt(hoursBetween),
           userId: parseInt(userId),
           pacienteId: parseInt(pacienteId),
+          dosagem: dosagem,
           photo: photo || undefined,
         });
 
@@ -67,31 +69,44 @@ const CadastroMedicamentoScreen = ({ navigation }: { navigation: any }) => {
   };
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Text>Nome do Medicamento:</Text>
+    <View className='p-4 space-y-4'>
       <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 16, padding: 8 }}
+        placeholder="Nome do medicamento"
         onChangeText={(text) => setName(text)}
         value={name}
+        className='font-body border border-collapse p-2 text-lg text-black'
       />
-
-      <Text>Horas entre doses:</Text>
       <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 16, padding: 8 }}
+        placeholder="Intervalo entre as doses"
         onChangeText={(text) => setHoursBetween(text)}
         value={hoursBetween}
         keyboardType="numeric"
+        className='font-body border border-collapse p-2 text-lg text-black'
+      />
+      <TextInput
+        placeholder="Dosagem"
+        onChangeText={(text) => setDosagem(text)}
+        value={dosagem}
+        className='font-body border border-collapse p-2 text-lg text-black'
       />
 
-      {photo && <Image source={{ uri: photo }} style={{ width: 100, height: 100, marginBottom: 16 }} />}
 
-      <TouchableOpacity activeOpacity={0.7} onPress={openImagePicker}>
-        <View style={{ marginVertical: 8 }}>
-          <Text>Adicionar foto ou vídeo de capa</Text>
+      {photo && <Image source={{ uri: photo }} className='w-100 h-52 rounded-lg' />}
+
+      <TouchableOpacity
+       activeOpacity={0.7}
+        onPress={openImagePicker}
+        className='w-100 mb-3 border border-dashed border-sky-700 p-6'
+        >
+        <View className=''>
+          <Text className='text-center'>Imagem do medicamento</Text>
         </View>
       </TouchableOpacity>
-
-      <Button title="Cadastrar Medicamento" onPress={handleCadastroMedicamento} />
+      <TouchableOpacity 
+      onPress={handleCadastroMedicamento}
+      className="rounded-md p-4 shadow-black bg-sky-700 rounded-md">
+           <Text className='text-center text-white uppercase'>Salvar</Text>
+      </TouchableOpacity>
     </View>
   );
 };

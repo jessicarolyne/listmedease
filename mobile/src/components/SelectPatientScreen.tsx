@@ -33,15 +33,19 @@ const SelectPatientScreen = ({ navigation }: { navigation: any }) => {
   };
 
   return (
-    <View>
-      <Text>Selecione o paciente:</Text>
+    <View className='p-4'>
+      <Text className='font-title text-center text-2xl py-4'>Lista de pacientes</Text>
+      <Text className='font-body text-md pb-3'>Selecione o paciente que deseja acompanhar:</Text>
       <FlatList
         data={patients}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handlePatientSelect(item.id)}>
-            <View>
-              <Text>{item.name}</Text>
+          <TouchableOpacity 
+          onPress={() => handlePatientSelect(item.id)}
+          className='p-6 my-1 bg-sky-700 rounded-md'
+          >
+            <View> 
+              <Text className='text-lg text-white uppercase'>{item.name}</Text>
             </View>
           </TouchableOpacity>
         )}

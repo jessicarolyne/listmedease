@@ -9,6 +9,7 @@ interface Medicamento {
   name: string;
   hoursBetween: number;
   nextDue: Date;
+  dosagem: String;
 }
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
@@ -107,7 +108,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
     medicamentos.forEach((medicamento) => {
       const horario = new Date(medicamento.nextDue);
       horario.setHours(horario.getHours() + 3);
-const horaFormatada = `${horario.getHours().toString().padStart(2, '0')}:${horario.getMinutes().toString().padStart(2, '0')}`;
+      const horaFormatada = `${horario.getHours().toString().padStart(2, '0')}:${horario.getMinutes().toString().padStart(2, '0')}`;
 
       if (!medicamentosPorHorario[horaFormatada]) {
         medicamentosPorHorario[horaFormatada] = [];
@@ -119,13 +120,14 @@ const horaFormatada = `${horario.getHours().toString().padStart(2, '0')}:${horar
       <View>
         {Object.entries(medicamentosPorHorario).map(([horario, medicamentosNoHorario]) => (
           <View key={horario}>
-            <Text>{`Remédios para ${horario}`}</Text>
+            <Text className='font-title text-lg py-2 mt-5 border-b-2 border-dotted border-sky-700'>{`${horario}`}</Text>
             <FlatList
               data={medicamentosNoHorario}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
-                <View>
-                  <Text>{item.name}</Text>
+                <View className='py-4 flex-1 justify-between flex-row border-b-2 border-dotted border-gray-100'>
+                  <Text className='px-6 uppercase'>{item.name}</Text>
+                  <Text className='px-6'>{item.dosagem}</Text>
                 </View>
               )}
             />
@@ -137,20 +139,13 @@ const horaFormatada = `${horario.getHours().toString().padStart(2, '0')}:${horar
 
   return (
     <View style={{flex: 1, padding: 20}}>
-      <Text style={{fontSize: 24, fontWeight: 500}}>Lista de Medicamentos</Text>
+      <Text className='font-title text-center text-2xl py-4'>Lista de Medicamentos</Text>
       {renderMedicamentosByHour()}
       <TouchableOpacity
-        style={{
-          position: 'absolute',
-          bottom: 20,
-          right: 20,
-          backgroundColor: 'blue',
-          padding: 10,
-          borderRadius: 10,
-        }}
         onPress={handleAddMedicamento}
+        className='absolute bottom-5 right-5 rounded-md items-center self-end bg-sky-700 py-2 px-4'
       >
-        <Text style={{ color: 'white', fontSize: 18 }}>Adicionar Medicamento</Text>
+        <Text className='font-body text-3xl text-white'>+</Text>
       </TouchableOpacity>
     </View>
   );

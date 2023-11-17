@@ -167,13 +167,14 @@ app2.post('/upload', async (request: FastifyRequest, reply: FastifyReply) => {
 
 app.post('/novoMedicamento', async (req, res) => {
   try {
-    const { name, hoursBetween, userId, pacienteId, photo } = req.body;
+    const { name, hoursBetween, userId, pacienteId, photo, dosagem } = req.body;
     const novaHoraProximaDose = getCurrentLocalDateTime();
     novaHoraProximaDose.setHours(novaHoraProximaDose.getHours() + hoursBetween);
     const novoMedicamento = await prisma.medicamento.create({
       data: {
         name,
         hoursBetween,
+        dosagem,
         userId,
         pacienteId,
         nextDue: novaHoraProximaDose,

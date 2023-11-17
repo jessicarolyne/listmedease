@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, Button, TouchableOpacity, Text } from 'react-native';
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [email, setEmail] = useState('');
@@ -32,19 +32,26 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
 
 
   return (
-    <View style={{ flex: 1, padding: 16 }}/*className="flex-1 items-center justify-center bg-white"*/>
+    <View className='flex-1 justify-center px-12 gap-4'>
+      <Text className='font-title text-3xl text-center'>Listmedease</Text>
       <TextInput
         placeholder="Email"
         value={email}
         onChangeText={(text) => setEmail(text)}
+        className='font-body border border-collapse p-2 text-lg text-black'
       />
       <TextInput
         placeholder="Password"
         secureTextEntry
         value={password}
         onChangeText={(text) => setPassword(text)}
+        className='font-body border border-collapse p-2 text-lg text-black'
       />
-      <Button title="Login" onPress={handleLogin} />
+      <TouchableOpacity 
+      onPress={handleLogin}
+      className="rounded-md p-4 shadow-black bg-sky-700 rounded-md">
+           <Text className='text-center text-white uppercase'>Login</Text>
+      </TouchableOpacity>
     </View>
   );
 };
