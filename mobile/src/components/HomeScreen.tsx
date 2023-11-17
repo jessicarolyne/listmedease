@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import * as Notifications from 'expo-notifications';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface Medicamento {
   id: number;
@@ -14,13 +15,16 @@ interface Medicamento {
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [medicamentos, setMedicamentos] = useState<any[]>([]);
-
+  const handleEditMedicamento = (medicamentoId) => {
+    console.log(medicamentoId)
+    navigation.navigate('Editar medicamento', { medicamentoId });
+  };
   useEffect(() => {
     const fetchMedicamentos = async () => {
       try {
         const selectedPatientId = await AsyncStorage.getItem('selectedPatientId');
         if (selectedPatientId) {
-          const response = await axios.get(`http://192.168.0.112:3000/medicamentos/${selectedPatientId}`);
+          const response = await axios.get(`http://192.168.15.90:3000/medicamentos/${selectedPatientId}`);
           setMedicamentos(response.data);
           scheduleNotifications(response.data);
         }
@@ -78,7 +82,6 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         },
         identifier: medicamento.id.toString()
       });
-      console.log('criada', notification)
     });
   };
 
@@ -91,8 +94,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       const novaHoraProximaDose = new Date();
       novaHoraProximaDose.setHours(novaHoraProximaDose.getHours() + 3 + medicamentoSelecionado.hoursBetween);
       try {
-        console.log(medicamentoSelecionado.name);
-        await axios.put(`http://192.168.0.112:3000/atualizarHoraProximaDose/${medicamentoSelecionado.id}`, {
+        await axios.put(`http://192.168.15.90:3000/atualizarHoraProximaDose/${medicamentoSelecionado.id}`, {
           novaHoraProximaDose: novaHoraProximaDose.toISOString(),
         });
         scheduleNotifications([medicamentoSelecionado]);
@@ -117,23 +119,26 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
     });
 
     return (
-      <View>
-        {Object.entries(medicamentosPorHorario).map(([horario, medicamentosNoHorario]) => (
-          <View key={horario}>
-            <Text className='font-title text-lg py-2 mt-5 border-b-2 border-dotted border-sky-700'>{`${horario}`}</Text>
-            <FlatList
-              data={medicamentosNoHorario}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
+      <ScrollView className='flex-1'>
+      {Object.entries(medicamentosPorHorario).map(([horario, medicamentosNoHorario]) => (
+        <View key={horario} className='flex-1'>
+          <Text className='font-title text-lg py-2 mt-5 border-b-2 border-dotted border-sky-700'>{`${horario}`}</Text>
+          <FlatList
+            data={medicamentosNoHorario}
+            scrollEnabled={false}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleEditMedicamento(item.id)}>
                 <View className='py-4 flex-1 justify-between flex-row border-b-2 border-dotted border-gray-100'>
                   <Text className='px-6 uppercase'>{item.name}</Text>
                   <Text className='px-6'>{item.dosagem}</Text>
                 </View>
-              )}
-            />
-          </View>
-        ))}
-    </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      ))}
+    </ScrollView>
     );
   };
 

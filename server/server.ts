@@ -2,14 +2,27 @@ import express, { Request, Response, Router } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { createWriteStream } from 'fs';
-import { extname, resolve } from 'path';
+import path, { extname, resolve } from 'path';
 import { v4 as randomUUID } from 'uuid';
+import multer from 'multer'
 import fastify, { FastifyRequest, FastifyReply } from 'fastify';
 const prisma = new PrismaClient();
 const app = express();
 const app2 = fastify();
 
 app.use(express.json());
+
+// Configuração do Multer para lidar com upload de imagens
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, 'medicamento_' + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 const getCurrentLocalDateTime = () => {
   const serverDateTime = new Date();
@@ -188,6 +201,48 @@ app.post('/novoMedicamento', async (req, res) => {
     res.status(500).json({ error: 'Erro ao cadastrar medicamento' });
   }
 });
+
+app.get('/medicamento/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const medicamento = await prisma.medicamento.findUnique({
+      where: { id: parseInt(id) },
+    });
+
+    if (!medicamento) {
+      return res.status(404).json({ message: 'Medicamento não encontrado' });
+    }
+
+    return res.json(medicamento);
+  } catch (error) {
+    console.error('Erro ao buscar medicamento para edição:', error);
+    return res.status(500).json({ message: 'Erro ao buscar medicamento para edição' });
+  }
+});
+// Rota PUT para editar um medicamento
+app.put('/medicamento/:id', upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const { name, hoursBetween, dosagem, photo } = req.body;
+
+  try {
+    const medicamento = await prisma.medicamento.update({
+      where: { id: parseInt(id) },
+      data: {
+        name,
+        hoursBetween,
+        dosagem,
+        photo,
+      },
+    });
+
+    return res.json({ message: 'Medicamento atualizado com sucesso', medicamento });
+  } catch (error) {
+    console.error('Erro ao atualizar o medicamento:', error);
+    return res.status(500).json({ message: 'Erro ao atualizar o medicamento' });
+  }
+});
+
 
 app.listen(3000, () => {
   console.log('Servidor rodando em http://192.168.0.112:3000');

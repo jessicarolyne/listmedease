@@ -1,14 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 
-const CadastroMedicamentoScreen = ({ navigation }: { navigation: any }) => {
+const EdicaoMedicamentoScreen = ({ route, navigation }: { route: any; navigation: any }) => {
+  const { medicamentoId } = route.params;
   const [name, setName] = useState('');
   const [hoursBetween, setHoursBetween] = useState('');
   const [dosagem, setDosagem] = useState('');
   const [photo, setPhoto] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchMedicamento = async () => {
+      try {
+        const response = await axios.get(`http://192.168.15.90:3000/medicamento/${medicamentoId}`);
+        const medicamento = response.data;
+
+        setName(medicamento.name);
+        setHoursBetween(medicamento.hoursBetween.toString());
+        setDosagem(medicamento.dosagem);
+        setPhoto(medicamento.photo);
+      } catch (error) {
+        console.error('Erro ao buscar medicamento para edição:', error);
+      }
+    };
+
+    fetchMedicamento();
+  }, [medicamentoId]);
 
   const openImagePicker = async () => {
     try {
@@ -18,7 +37,6 @@ const CadastroMedicamentoScreen = ({ navigation }: { navigation: any }) => {
       });
 
       if (!result.canceled) {
-        // Enviar a imagem para o servidor
         result.assets[0].uri
         const formData = new FormData();
         formData.append('image', {
@@ -26,45 +44,32 @@ const CadastroMedicamentoScreen = ({ navigation }: { navigation: any }) => {
           type: 'image/jpeg',
           name: 'photo.jpg',
         } as any);
-
-        /*const response = await axios.post('http://192.168.15.90:3000/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });*/
-
-        //console.log('Imagem enviada com sucesso. Caminho no servidor:', response.data.imagePath);
-
-        // Atualizar o estado da foto com a URI da imagem escolhida
-       /* setPhoto(response.data.imagePath);*/
-       setPhoto(result.assets[0].uri)
       }
     } catch (error) {
       console.error('Erro ao selecionar imagem:', error);
     }
   };
 
-  const handleCadastroMedicamento = async () => {
+  const handleEdicaoMedicamento = async () => {
     try {
-      console.log('foto', photo);
       const userId = await AsyncStorage.getItem('userId');
       const pacienteId = await AsyncStorage.getItem('selectedPatientId');
 
       if (userId && pacienteId) {
-        const response = await axios.post('http://192.168.15.90:3000/novoMedicamento', {
+        const response = await axios.put(`http://192.168.15.90:3000/medicamento/${medicamentoId}`, {
           name,
           hoursBetween: parseInt(hoursBetween),
           userId: parseInt(userId),
           pacienteId: parseInt(pacienteId),
-          dosagem: dosagem,
+          dosagem,
           photo: photo || undefined,
         });
 
-        console.log('Medicamento cadastrado com sucesso:', response.data);
+        console.log('Medicamento editado com sucesso:', response.data);
         navigation.navigate('Home');
       }
     } catch (error) {
-      console.error('Erro ao cadastrar medicamento:', error);
+      console.error('Erro ao editar medicamento:', error);
     }
   };
 
@@ -90,25 +95,22 @@ const CadastroMedicamentoScreen = ({ navigation }: { navigation: any }) => {
         className='font-body border border-collapse p-2 text-lg text-black'
       />
 
-
       {photo && <Image source={{ uri: photo }} className='w-100 h-52 rounded-lg' />}
 
       <TouchableOpacity
-       activeOpacity={0.7}
+        activeOpacity={0.7}
         onPress={openImagePicker}
         className='w-100 mb-3 border border-dashed border-sky-700 p-6'
-        >
+      >
         <View className=''>
           <Text className='text-center'>Imagem do medicamento</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity 
-      onPress={handleCadastroMedicamento}
-      className="rounded-md p-4 shadow-black bg-sky-700 rounded-md">
-           <Text className='text-center text-white uppercase'>Salvar</Text>
+      <TouchableOpacity onPress={handleEdicaoMedicamento} className="rounded-md p-4 shadow-black bg-sky-700 rounded-md">
+        <Text className='text-center text-white uppercase'>Salvar Edição</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default CadastroMedicamentoScreen;
+export default EdicaoMedicamentoScreen;

@@ -11,7 +11,7 @@ interface Medicamento {
 
 const createMedicine = async (medicamento: Medicamento) => {
   try {
-    const response = await axios.post('192.168.0.112/novo-medicamento', medicamento);
+    const response = await axios.post('192.168.15.90/novo-medicamento', medicamento);
     return response.data;
   } catch (error) {
     console.error('Erro ao criar medicamento', error);
