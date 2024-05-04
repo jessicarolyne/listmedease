@@ -4,8 +4,8 @@
 
 Desnevolvimento de um aplicativo com o propósito de tornar mais simples a organização de informações e a prestação de serviços dos cuidadores aos pacientes.
 O aplicativo deverá permitir:
-- O cadastro de uma lista de medicamentos com fotos e dosagens dos medicamentos que serão administrados ao paciente conforme a prescrição médica; <i class="fas fa-check-circle" style="color:green;"></i>
-- Gerenciamento e administração dos medicamentos no tempo correto, exibindo notificações referente ao medicamento a ser tomado e o horário; <i class="fas fa-check-circle" style="color:green;"></i>
+- O cadastro de uma lista de medicamentos com fotos e dosagens dos medicamentos que serão administrados ao paciente conforme a prescrição médica; <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Green_check.svg/1200px-Green_check.svg.png" alt="Certo" width="16" height="16">
+- Gerenciamento e administração dos medicamentos no tempo correto, exibindo notificações referente ao medicamento a ser tomado e o horário; <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Green_check.svg/1200px-Green_check.svg.png" alt="Certo" width="16" height="16">
 - Fazer a leitura dos batimentos cardiacos e saturação do sangue utilizando um smartwatch mi band como dispositivo de inserção de dados;
 - Exibir gráficos com os dados coletados pelo dispositivo de inserção de dados 
 
