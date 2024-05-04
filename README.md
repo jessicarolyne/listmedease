@@ -47,15 +47,15 @@ Após isso o aplicativo já poderá ser utilizado.
 ## Imagens
 
 Telas desenvolvidas até o momento:
-![alt text](login.jpeg)
+![alt text](login.jpeg){:height="250px" width="500px"}
 *Tela de Login do aplicativo*
-![alt text](lista.jpeg) 
+![alt text](lista.jpeg) {:height="250px" width="500px"}
 *Lista de pacientes do cuidador logado*
-![alt text](cadastrado.jpeg) 
+![alt text](cadastrado.jpeg) {:height="250px" width="500px"}
 *Lista de medicamentos que o paciente toma, separados por horário*
-![alt text](editar.jpeg) 
+![alt text](editar.jpeg) {:height="250px" width="500px"}
 *Tela para editar os medicamentos já cadastrados no aplcativo*
-![alt text](cadastrar.jpeg) 
+![alt text](cadastrar.jpeg) {:height="250px" width="500px"}
 *Tela para cadastro de um novo medicamento*
 
 ## Créditos
