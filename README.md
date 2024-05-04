@@ -2,11 +2,6 @@
 
 # List Medease
 
-
-Aplicativo para acesso a uma lista de medicamentos com facilidade
-Durante a disciplina de Projeto Integrador V será desenvolvido um aplicativo para auxiliar cuidadores/tutores e até mesmo pacientes durante a separação dos medicamentos que precisam ser ingeridos durante o dia.
-# List Medease
-
 Desnevolvimento de um aplicativo com o propósito de tornar mais simples a organização de informações e a prestação de serviços dos cuidadores aos pacientes.
 O aplicativo deverá permitir:
 - O cadastro de uma lista de medicamentos com fotos e dosagens dos medicamentos que serão administrados ao paciente conforme a prescrição médica; <i class="fas fa-check-circle" style="color:green;"></i>
