@@ -9,7 +9,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.15.90:3000/login', {
+      const response = await fetch('http://192.168.0.108:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,7 +20,8 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
         const data = await response.json();
         console.log('Login bem-sucedido:', data);
         AsyncStorage.setItem('userId', data.user.id.toString());
-        navigation.navigate('Selecionar paciente');
+        //navigation.navigate('Selecionar paciente');
+        navigation.navigate('Exemplo de grafico');
       } else {
         const errorData = await response.json();
         console.log('Erro no login:', errorData);

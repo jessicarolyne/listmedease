@@ -11,7 +11,7 @@ const SelectPatientScreen = ({ navigation }: { navigation: any }) => {
       try {
         const userId = await AsyncStorage.getItem('userId');
         if (userId) {
-          const response = await axios.get(`http://192.168.15.90:3000/pacientes?userId=${userId}`);
+          const response = await axios.get(`http://192.168.0.108:3000/pacientes?userId=${userId}`);
           setPatients(response.data);
         }
       } catch (error) {

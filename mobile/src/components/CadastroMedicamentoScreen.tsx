@@ -27,7 +27,7 @@ const CadastroMedicamentoScreen = ({ navigation }: { navigation: any }) => {
           name: 'photo.jpg',
         } as any);
 
-        /*const response = await axios.post('http://192.168.15.90:3000/upload', formData, {
+        /*const response = await axios.post('http://192.168.0.108:3000/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -51,7 +51,7 @@ const CadastroMedicamentoScreen = ({ navigation }: { navigation: any }) => {
       const pacienteId = await AsyncStorage.getItem('selectedPatientId');
 
       if (userId && pacienteId) {
-        const response = await axios.post('http://192.168.15.90:3000/novoMedicamento', {
+        const response = await axios.post('http://192.168.0.108:3000/novoMedicamento', {
           name,
           hoursBetween: parseInt(hoursBetween),
           userId: parseInt(userId),

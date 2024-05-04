@@ -24,7 +24,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       try {
         const selectedPatientId = await AsyncStorage.getItem('selectedPatientId');
         if (selectedPatientId) {
-          const response = await axios.get(`http://192.168.15.90:3000/medicamentos/${selectedPatientId}`);
+          const response = await axios.get(`http://192.168.0.108:3000/medicamentos/${selectedPatientId}`);
           setMedicamentos(response.data);
           scheduleNotifications(response.data);
         }
@@ -94,7 +94,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       const novaHoraProximaDose = new Date();
       novaHoraProximaDose.setHours(novaHoraProximaDose.getHours() + 3 + medicamentoSelecionado.hoursBetween);
       try {
-        await axios.put(`http://192.168.15.90:3000/atualizarHoraProximaDose/${medicamentoSelecionado.id}`, {
+        await axios.put(`http://192.168.0.108:3000/atualizarHoraProximaDose/${medicamentoSelecionado.id}`, {
           novaHoraProximaDose: novaHoraProximaDose.toISOString(),
         });
         scheduleNotifications([medicamentoSelecionado]);

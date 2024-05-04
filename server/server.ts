@@ -245,5 +245,7 @@ app.put('/medicamento/:id', upload.single('image'), async (req, res) => {
 
 
 app.listen(3000, () => {
-  console.log('Servidor rodando em http://192.168.0.112:3000');
+  console.log('Servidor rodando em http://192.168.0.108:3000');
 });
+
+

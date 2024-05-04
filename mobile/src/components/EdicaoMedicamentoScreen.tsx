@@ -14,7 +14,7 @@ const EdicaoMedicamentoScreen = ({ route, navigation }: { route: any; navigation
   useEffect(() => {
     const fetchMedicamento = async () => {
       try {
-        const response = await axios.get(`http://192.168.15.90:3000/medicamento/${medicamentoId}`);
+        const response = await axios.get(`http://192.168.0.108:3000/medicamento/${medicamentoId}`);
         const medicamento = response.data;
 
         setName(medicamento.name);
@@ -56,7 +56,7 @@ const EdicaoMedicamentoScreen = ({ route, navigation }: { route: any; navigation
       const pacienteId = await AsyncStorage.getItem('selectedPatientId');
 
       if (userId && pacienteId) {
-        const response = await axios.put(`http://192.168.15.90:3000/medicamento/${medicamentoId}`, {
+        const response = await axios.put(`http://192.168.0.108:3000/medicamento/${medicamentoId}`, {
           name,
           hoursBetween: parseInt(hoursBetween),
           userId: parseInt(userId),
